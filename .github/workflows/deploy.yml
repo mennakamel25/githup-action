@@ -8,39 +8,25 @@ on:
       - master
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    env:
-      NODE_ENV: testing
-      name_database: menna_test
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node-version: [12, 14, 16]
 
     steps:
-      - name: Get Code
+      - name: Get code
         uses: actions/checkout@v3
 
-      - name: Cache dependencies
-        uses: actions/cache@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          path: ~/.npm
-          key: npm-deps-${{ hashFiles('**/package-lock.json') }}
+          node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: |
-          npm ci
-          echo "hoo ${{ env.name_database }}"
+        run: npm ci
 
-      - name: Run server
-        run: npm start & npx wait-on http://127.0.0.1:3000
-
-      - name: Run tests
-        run: npm test
-
-      - name: Output information
-        run: echo "done"
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Output information
-        run: echo "deploying..."
+      - name: Build project
+        run: npm run build
