@@ -12,9 +12,10 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [14, 16]   # ❗ Node 12 غالبًا deprecated ومش مستحسن
+        node-version: [14, 16]
 
     steps:
       - name: Get code
