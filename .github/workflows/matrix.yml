@@ -40,7 +40,4 @@ jobs:
         
   deploy:
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy app
-        uses: ./.github/workflows/reuse.yml    
+    uses: ./.github/workflows/reuse.yml
