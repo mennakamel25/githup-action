@@ -1,0 +1,8 @@
+name: reuse workfolw
+on: workflow_call
+jobs:
+  deploy:
+    runs-on : ubuntu-latest
+    steps:
+        - name: Reuse matrix workflow
+          run: echo "This is a reusable workflow that can be called from other workflows"

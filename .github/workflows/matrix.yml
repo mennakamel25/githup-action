@@ -15,9 +15,7 @@ jobs:
         node-version: [12, 14]
         os: [ubuntu-latest, windows-latest]
 
-        include:
-          - node-version: 18
-            os: ubuntu-latest
+        
 
         exclude:
           - node-version: 12
@@ -38,3 +36,11 @@ jobs:
 
       - name: Run app
         run: npm build
+  
+        
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy app
+        uses: ./.github/workflows/reuse.yml    
