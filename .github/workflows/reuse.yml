@@ -7,12 +7,26 @@ on:
         required: true
         type: string
 
+    outputs:
+      deploy-url:
+        description: 'The URL where the app is deployed'
+        value: ${{ jobs.deploy.outputs.deploy-url }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    outputs:
+      deploy-url: ${{ steps.deploy.outputs.deploy-url }}
+
     steps:
-      - name: download build artifacts
+      - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.artifact-name }}
+
+      - name: Deploy app
+        id: deploy
+        run: |
+          echo "Deploying app..."
+          echo "deploy-url=https://my-app.com" >> $GITHUB_OUTPUT
