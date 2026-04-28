@@ -1,8 +1,18 @@
-name: reuse workfolw
-on: workflow_call
+name: reuse workflow
+
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
+
 jobs:
   deploy:
-    runs-on : ubuntu-latest
+    runs-on: ubuntu-latest
+
     steps:
-        - name: Reuse matrix workflow
-          run: echo "This is a reusable workflow that can be called from other workflows"
+      - name: download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ inputs.artifact-name }}
