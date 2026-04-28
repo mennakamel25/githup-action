@@ -38,7 +38,7 @@ jobs:
           path: dist/
 
   deploy:
-    needs: build
+    needs: [build , lint]
     uses: ./.github/workflows/reuse.yml
     with:
       artifact-name: dist-folder
